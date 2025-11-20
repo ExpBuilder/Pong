@@ -30,6 +30,7 @@ public class Paddle {
 		
 	}
 	
+	
 	//precondition: location is a non-null value
 	//postcondition: moves the paddle in the direction of the location 
 	public void moveY(int location) {
@@ -49,25 +50,25 @@ public class Paddle {
 		 
 	      else  y-=speed;	 
 	 }
-	 
-	 
-	 
-	
 	}
+
+
 	//precondition: none
 	//postcondition: returns the paddles y
 	public int getY() {
 		  return y;
 	  }
 	  
+
 	//precondition: none
 	//postcondition: returns the paddles x
 	  public int getX() {
 		  return x;
 	  }
 	  
-		//precondition: ball is a non-null value
-		//postcondition: returns true if the ball is touching one the paddle this is called on
+
+	//precondition: ball is a non-null value
+	//postcondition: returns true if the ball is touching one the paddle this is called on
 	 public boolean isTouching(Ball ball) {
 		 int rightX= x+width;
 		 int bottomY = y+height;
@@ -75,7 +76,6 @@ public class Paddle {
 		 if(x <= ball.getX() && ball.getX()<=rightX) {
 			 System.out.println("x in bounds");
 			 if(bottomY >= ball.getY() && ball.getY()>=y) {
-				 
 				 return true;
 			 }
 	 }

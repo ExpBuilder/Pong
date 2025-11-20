@@ -28,13 +28,15 @@ public Ball(int x, int y, int changeX, int changeY, Color color, int size) {
     g.fillOval(x, y, size, size);
 
    }
+
+
  //precondition: None
  //postcondition: moves the ball by changeX and changeY
    public void moveBall() {
-	   
     x+= changeX;
     y+= changeY;
    }
+
    
  //precondition: None
  //postcondition: changes the y direction of the ball
@@ -57,30 +59,29 @@ public Ball(int x, int y, int changeX, int changeY, Color color, int size) {
       if(y<bottom) {
         reverseY();  
       }
-      
-      
-
-
-
-
    }
- //precondition: None
- //postcondition: returns the ball's y value
+
+
+  //precondition: None
+  //postcondition: returns the ball's y value
   public int getY() {
 	  return y;
   }
   
+
   //precondition: None
   //postcondition: returns the ball's x value
   public int getX() {
 	  return x;
   }
   
+
   //precondition: y is a non-null number
   //postcondition: sets the y value of the ball equal to the inputed y
-  public void sety(int y) {
+  public void setY(int y) {
 	  this.y=y;
   }
+
   
 //precondition: x is a non-null number
 //postcondition: sets the x value of the ball equal to the inputed x
@@ -95,23 +96,26 @@ public double getChangeX() {
 	return changeX;
 }
 
+
 //precondition: none
 //postcondition: gets the changeY of the ball equal to the inputed speed
 public double getChangeY() {
 	return changeY;
 }
+
+
 //precondition: x is a non-null number, and when increasing or decreasing the changeX don't change by a whole number. Use smaller decimals 
 //postcondition: sets the changeX of the ball equal to the inputed x
 public void setChangeX(double x) {
 	this.changeX= x;
 }
+
+
 //precondition: y is a non-null number, and when increasing or decreasing the changey don't change by a whole number. Use smaller decimals 
 //postcondition: sets the changeY of the ball equal to the inputed y
 public void setChangey(double y) {
 	this.changeY=x;
 }
   
-
-
 
 }

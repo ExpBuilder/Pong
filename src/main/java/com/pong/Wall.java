@@ -28,21 +28,21 @@ public class Wall {
 	
 	//precondition: none
 	//postcondition: returns the walls y value
-		public int getY() {
+	public int getY() {
 			  return y;
 		  }
 		  
-		//precondition: none
-		//postcondition: returns the walls x value
-		  public int getX() {
+	//precondition: none
+	//postcondition: returns the walls x value
+	public int getX() {
 			  return x;
 		  }
 		  
-		//precondition: ball is a non-null value
-		//postcondition: returns true if the ball is touching one the paddle this is called on
-			 public boolean isTouching(Ball ball) {
-				 int rightX= x+width;
-				 int bottomY = y+height;
+	//precondition: ball is a non-null value
+	//postcondition: returns true if the ball is touching one the paddle this is called on
+	public boolean isTouching(Ball ball) {
+		int rightX= x+width;
+		int bottomY = y+height;
 				 
 				 if(x <= ball.getX() && ball.getX()<=rightX) {
 					 System.out.println("x in bounds");
@@ -53,7 +53,5 @@ public class Wall {
 			 }
 				 return false;
 			 }
-
-
 }
 

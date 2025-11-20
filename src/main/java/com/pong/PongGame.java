@@ -8,28 +8,37 @@ import java.awt.event.MouseMotionListener;
 public class PongGame extends JPanel implements MouseMotionListener {
     static int width = 640; // this is the amount of pixels to the right side of the screen
     static int height = 480; // this is the amount of pixels to the top of the screen.
+
     private int userMouseY;
+
     private Paddle aiPaddle;
+    private Paddle playerPaddle;
+
     private int playerScore;
     private int aiScore;
+
     private Ball ball;
-    // step 1 add any other private variables you may need to play the game.
+    
 
     public PongGame() {
-
         aiPaddle = new Paddle(610, 240, 50, 9, Color.WHITE);
+
         JLabel pScore = new JLabel("0");
         JLabel aiScore = new JLabel("0");
+
         pScore.setBounds(280, 440, 20, 20);
-        aiScore.setBounds(360, 440, 20, 20);
+        aiScore.setBounds(360, 440, 20, 20); 
+
         pScore.setVisible(true);
         aiScore.setVisible(true);
+
         userMouseY = 0;
         addMouseMotionListener(this);
+
         ball = new Ball(200, 200, 10, 3, Color.RED, 10);
 
         //create any other objects necessary to play the game.
-
+        playerPaddle = new Paddle (30, 240, 50, 9, Color.WHITE);
     }
 
     // precondition: None
@@ -47,7 +56,6 @@ public class PongGame extends JPanel implements MouseMotionListener {
     //precondition: All visual components are initialized, non-null, objects 
     //postcondition: A frame of the game is drawn onto the screen.
     public void paintComponent(Graphics g) {
-
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
 
@@ -57,15 +65,28 @@ public class PongGame extends JPanel implements MouseMotionListener {
         aiPaddle.draw(g);
         
         //call the "draw" function of any visual component you'd like to show up on the screen.
-
+        playerPaddle.draw(g);
     }
 
     // precondition: all required visual components are intialized to non-null
     // values
     // postcondition: one frame of the game is "played"
     public void gameLogic() {
-        //add commands here to make the game play propperly
+        // Ball Movement
+        ball.moveBall();
+
+        if (ball.getY() <= 0 || ball.getY() >= height - 40) {
+            ball.reverseY();
+        }
+
+        // Player Paddle
+        playerPaddle.moveY(userMouseY);
         
+        if (playerPaddle.isTouching(ball)) {
+           ball.reverseX();
+        }
+
+        // Ai Stuff
         aiPaddle.moveY(ball.getY());
 
         if (aiPaddle.isTouching(ball)) {
@@ -83,7 +104,20 @@ public class PongGame extends JPanel implements MouseMotionListener {
     // pixels) and the ai scores
     // if the ball goes off the left edge (0)
     public void pointScored() {
+        boolean offscreen = false;
 
+        if (ball.getX() <= 0) {
+            aiScore++;
+            offscreen = true;
+        } else if (ball.getX() >= width) {
+            playerScore++;
+            offscreen = true;
+        }
+
+        if (offscreen) {
+            ball.setX(width / 2);
+            ball.setY(height / 2);
+        }
     }
 
     // you do not need to edit the below methods, but please do not remove them as
