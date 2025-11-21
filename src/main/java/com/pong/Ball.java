@@ -113,8 +113,8 @@ public void setChangeX(double x) {
 
 //precondition: y is a non-null number, and when increasing or decreasing the changey don't change by a whole number. Use smaller decimals 
 //postcondition: sets the changeY of the ball equal to the inputed y
-public void setChangey(double y) {
-	this.changeY=x;
+public void setChangeY(double y) {
+	this.changeY=y;
 }
   
 

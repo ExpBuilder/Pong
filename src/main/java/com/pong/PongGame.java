@@ -18,27 +18,41 @@ public class PongGame extends JPanel implements MouseMotionListener {
     private int aiScore;
 
     private Ball ball;
+
+    private SlowDown slowZone;
+
+    private Speedup speedZone1;
+    private Speedup speedZone2;
     
 
     public PongGame() {
+        // Paddle def
         aiPaddle = new Paddle(610, 240, 50, 9, Color.WHITE);
+        playerPaddle = new Paddle (30, 240, 50, 9, Color.WHITE);
 
+        // Label def
         JLabel pScore = new JLabel("0");
         JLabel aiScore = new JLabel("0");
 
+        // Score Setup
         pScore.setBounds(280, 440, 20, 20);
         aiScore.setBounds(360, 440, 20, 20); 
 
         pScore.setVisible(true);
         aiScore.setVisible(true);
 
+        // User Mouse Setup
         userMouseY = 0;
         addMouseMotionListener(this);
 
-        ball = new Ball(200, 200, 10, 3, Color.RED, 10);
+        // Ball Def
+        ball = new Ball(width / 2, height / 2, 8, 5, Color.BLUE, 10);
 
-        //create any other objects necessary to play the game.
-        playerPaddle = new Paddle (30, 240, 50, 9, Color.WHITE);
+        // Zone Def
+        slowZone = new SlowDown(width/2 - 50, height/2 - 75, 150, 100);
+
+        speedZone1 = new Speedup(width/2 - 50, height - 75 - 50, 75, 100);
+        speedZone2 = new Speedup(width/2 - 50, 50, 75, 100);
     }
 
     // precondition: None
@@ -56,16 +70,24 @@ public class PongGame extends JPanel implements MouseMotionListener {
     //precondition: All visual components are initialized, non-null, objects 
     //postcondition: A frame of the game is drawn onto the screen.
     public void paintComponent(Graphics g) {
+        // Clears screen
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
 
+        // Screen Setup
         g.setColor(Color.WHITE);
         g.drawString("The Score is User:" + playerScore + " vs Ai:" + aiScore, 240, 20);
-        ball.draw(g);
+
+        // Draw Objects
         aiPaddle.draw(g);
-        
-        //call the "draw" function of any visual component you'd like to show up on the screen.
         playerPaddle.draw(g);
+
+        slowZone.draw(g);
+
+        speedZone1.draw(g);
+        speedZone2.draw(g);
+
+        ball.draw(g);
     }
 
     // precondition: all required visual components are intialized to non-null
@@ -75,7 +97,7 @@ public class PongGame extends JPanel implements MouseMotionListener {
         // Ball Movement
         ball.moveBall();
 
-        if (ball.getY() <= 0 || ball.getY() >= height - 40) {
+        if (ball.getY() <= 0 || ball.getY() >= height - 20) {
             ball.reverseY();
         }
 
@@ -92,7 +114,24 @@ public class PongGame extends JPanel implements MouseMotionListener {
         if (aiPaddle.isTouching(ball)) {
            ball.reverseX();
         }
- 
+        
+        // Zone effects
+        int signX = 1;
+        int signY = 1;
+        if (ball.getChangeX() < 0) signX = -1;
+        if (ball.getChangeY() < 0) signY = -1;
+
+        if (slowZone.isTouching(ball)) {
+            ball.setChangeX(4.0 * signX);
+            ball.setChangeY(2.5 * signY);
+        } else if (speedZone1.isTouching(ball) || speedZone2.isTouching(ball)) {
+            ball.setChangeX(25.0 * signX);
+            ball.setChangeY(10 * signY);
+        } else {
+            ball.setChangeX(8.0 * signX);
+            ball.setChangeY(5.0 * signY);
+        }    
+
         pointScored();
 
     }
@@ -117,6 +156,10 @@ public class PongGame extends JPanel implements MouseMotionListener {
         if (offscreen) {
             ball.setX(width / 2);
             ball.setY(height / 2);
+
+            // Randomize direction
+            if (Math.random() > 0.5) ball.reverseX();
+            if (Math.random() > 0.5) ball.reverseY();
         }
     }
 
