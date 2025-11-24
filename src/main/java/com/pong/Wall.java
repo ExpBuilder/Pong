@@ -51,7 +51,7 @@ public class Wall {
 						 return true;
 					 }
 			 }
-				 return false;
+				return false;
 			 }
 }
 
