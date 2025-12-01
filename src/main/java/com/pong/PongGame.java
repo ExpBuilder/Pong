@@ -25,7 +25,6 @@ public class PongGame extends JPanel implements MouseMotionListener {
     private Speedup speedZone2;
     
     private Wall wall1;
-    private Wall wall2;
 
     public PongGame() {
         // Paddle def
@@ -57,8 +56,7 @@ public class PongGame extends JPanel implements MouseMotionListener {
         speedZone2 = new Speedup(width/2 - 75, 50, 75, 150);
 
         // Wall Def
-        wall1 = new Wall(width/2 - 5, height - 75 - 50, 75, 10, Color.WHITE);
-        wall2 = new Wall(width/2 - 5, 50, 75, 10, Color.WHITE);
+        wall1 = new Wall(width/2 - 100, height / 2 - 75, 150, 30, Color.WHITE);
     }
 
     // precondition: None
@@ -94,7 +92,6 @@ public class PongGame extends JPanel implements MouseMotionListener {
         speedZone2.draw(g);
 
         wall1.draw(g);
-        wall2.draw(g);
 
         ball.draw(g);
     }
@@ -110,9 +107,7 @@ public class PongGame extends JPanel implements MouseMotionListener {
             ball.reverseY();
         }
 
-        if (wall1.isTouching(ball)) ball.reverseX();
-
-        if (wall1.isTouching(ball) || wall2.isTouching(ball)) {
+        if (wall1.isTouching(ball)) {
             System.out.println("alkdfjasdlkfsdlkfj");
             ball.reverseX();
         }
