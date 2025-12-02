@@ -5,6 +5,11 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
+//  Class author:  Joe Jiao
+//  Date created:  12/2/2025
+//  General description: This class defines, draws, and simulates the objects involved in the Pong Game.
+//  Objects include the player/Ai paddle, the different zones, walls, the ball
+
 public class PongGame extends JPanel implements MouseMotionListener {
     static int width = 640; // this is the amount of pixels to the right side of the screen
     static int height = 480; // this is the amount of pixels to the top of the screen.
@@ -28,8 +33,8 @@ public class PongGame extends JPanel implements MouseMotionListener {
 
     public PongGame() {
         // Paddle def
-        aiPaddle = new Paddle(610, 240, 50, 12, Color.WHITE);
-        playerPaddle = new Paddle (30, 240, 50, 7, Color.WHITE);
+        aiPaddle = new Paddle(610, 240, 50, 6, Color.WHITE);
+        playerPaddle = new Paddle (30, 240, 50, 10, Color.WHITE);
 
         // Label def
         JLabel pScore = new JLabel("0");
@@ -56,7 +61,7 @@ public class PongGame extends JPanel implements MouseMotionListener {
         speedZone2 = new Speedup(width/2 - 75, 50, 75, 150);
 
         // Wall Def
-        wall1 = new Wall(width/2 - 100, height / 2 - 75, 150, 30, Color.WHITE);
+        wall1 = new Wall(width/2 - 100, height / 2 - 50, 100, 15, Color.WHITE);
     }
 
     // precondition: None
@@ -103,12 +108,9 @@ public class PongGame extends JPanel implements MouseMotionListener {
         // Ball Movement
         ball.moveBall();
 
-        if (ball.getY() <= 0 || ball.getY() >= height - 20) {
-            ball.reverseY();
-        }
+        ball.bounceOffwalls(0, height - 20);
 
         if (wall1.isTouching(ball)) {
-            System.out.println("alkdfjasdlkfsdlkfj");
             ball.reverseX();
         }
 
@@ -136,8 +138,8 @@ public class PongGame extends JPanel implements MouseMotionListener {
             ball.setChangeX(4.0 * signX);
             ball.setChangeY(2.5 * signY);
         } else if (speedZone1.isTouching(ball) || speedZone2.isTouching(ball)) {
-            ball.setChangeX(25.0 * signX);
-            ball.setChangeY(10 * signY);
+            ball.setChangeX(50.0 * signX);
+            ball.setChangeY(10.0 * signY);
         } else {
             ball.setChangeX(8.0 * signX);
             ball.setChangeY(5.0 * signY);
@@ -169,7 +171,7 @@ public class PongGame extends JPanel implements MouseMotionListener {
             ball.setY(height / 2);
 
             // Randomize direction
-            if (Math.random() > 0.5) ball.reverseX();
+            ball.setChangeX(Math.abs(ball.getChangeX()));
             if (Math.random() > 0.5) ball.reverseY();
         }
     }
